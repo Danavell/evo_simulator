@@ -1,4 +1,7 @@
 import pygame
+import random
+
+from lifeform import LifeForm
 pygame.init()
 
 win = pygame.display.set_mode((500, 500))
@@ -11,6 +14,13 @@ width = 40
 height = 40
 vel = 10
 
+life_forms = [
+    LifeForm(color=(255, 0, 0)),
+    LifeForm(color=(0, 255, 0)),
+    LifeForm(color=(0, 0, 255)),
+    LifeForm(color=(255, 255, 255)),
+]
+
 run = True
 while run:
     pygame.time.delay(100)
@@ -19,19 +29,9 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    keys = pygame.key.get_pressed()
-    print(x, y)
-    if keys[pygame.K_LEFT] and x > 0:
-        x -= vel
-    if keys[pygame.K_RIGHT] and x < 500 - width:
-        x += vel
-    if keys[pygame.K_UP] and y > 0:
-        y -= vel
-    if keys[pygame.K_DOWN] and y < 500 - height:
-        y += vel
-
     win.fill((0, 0, 0))
-    pygame.draw.rect(win, (255, 0, 0), (x, y, width, height))
+    for life in life_forms:
+        pygame.draw.rect(win, life.color, life.move())
     pygame.display.update()
 
 pygame.quit()
